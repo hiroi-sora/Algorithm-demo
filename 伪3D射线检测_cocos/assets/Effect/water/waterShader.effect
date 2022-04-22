@@ -1,0 +1,117 @@
+
+// shader描述
+CCEffect %{ 
+  techniques: # 存放渲染管道描述的数组集合
+
+  # 透明
+  - name: opaque
+    passes: # pass：完整的渲染流水线
+    - vert: my_vs # 顶点shader模块
+      frag: my_fs # 着色shader模块
+      depthStencilState: # 是否开启深度测试
+        depthTest: true
+        depthWrite: true
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none # 背面剔除
+
+      # 属性列表，显示在材质球面板上
+      # 自定义属性的时候，除了要在properties这里定义，还要在shader代码里定义
+      properties: &props
+        timeZoom: { value: 1.0 }
+        texZoom: { value: 1.0 }
+        mainTexture: { value: white }
+        normalMap: { value: white } // 法线贴图
+        color: { value: [0.5, 0.5, 0.5, 0.5], inspector: { type: color } } // 颜色
+        # alphaThreshold: { value: 0.5 }
+        mainTiling: { value: [1, 1] } # 从Offset指定的起始位置开始，分别在X/Y轴，截取指定比列大小的原始贴图，作为输出贴图
+        mainOffset: { value: [0, 0] } # 贴图UV坐标的起始位置，取值范围是0~1。
+        # 自定义属性：在shader代码里uniform UNLIT {......}; 里面定义。
+
+  # 不透明
+  - name: transparent 
+    passes: 
+      - stage: transparent
+        vert: my_vs
+        frag: my_fs
+        depthStencilState:
+          depthTest: true
+          depthWrite: true
+        blendState:
+          targets:
+          - blend: true
+        rasterizerState:
+          cullMode: none
+        properties: *props # 对TAML的锚点和引用，引用上面的片段
+}% // shader描述结束
+
+// 顶点描述
+CCProgram my_vs %{
+  precision highp float; // 定义float精度。GSLS里从高到低[highp,mediump,lowp]
+  uniform MAIN_TILING {
+    vec2 mainTiling;
+    vec2 mainOffset;
+    float texZoom;
+  };
+  in vec3 a_position; // 从渲染管道里获取顶点位置
+  // in vec4 a_color;
+  in vec2 a_uv0; // 顶点纹理坐标
+  // 顶点shader->着色shader
+  out lowp vec4 v_color;
+  out mediump vec2 v_uv0;
+  #pragma builtin(local) // 声明为本地
+  uniform CCLocal { // 必须声明这样
+   mat4 cc_matWorld; // 引擎绘制的时候根据物体的位置设置的矩阵
+   mat4 cc_matViewProj; // 绘制时由世界转到摄像机透视的矩阵
+  };
+
+  void main () {
+    vec4 position = vec4(a_position,1);
+    v_uv0 = a_uv0 * mainTiling + mainOffset;
+    v_uv0 *= texZoom;
+    // v_color = a_color;
+    gl_Position = cc_matViewProj * cc_matWorld * position; // 顶点变换
+  }
+}%
+
+
+// 着色描述
+CCProgram my_fs %{
+  precision highp float;
+    #include <cc-global>
+  uniform sampler2D mainTexture; // 纹理图
+  in mediump vec2 v_uv0;
+  // in vec2 a_uv0; // 输入 顶点纹理坐标
+  uniform main {
+    vec4 color;
+    float timeZoom;
+  };
+  // 勾选法线时启用
+  // #if USE_NORMALMAP
+    uniform sampler2D normalMap; // 法线贴图
+  // #endif
+
+  vec2 waveNormal(vec2 p) { // 水波法线函数
+    vec2 nm = texture2D(normalMap, p).xy;
+    return normalize(nm);
+}
+
+  void main () {
+    vec2 t1 = vec2(timeZoom * cc_time.x + 0.5,0.0); // 
+    // 法线贴图扰动
+    // 简单UV动画
+    vec2 n = v_uv0;// + t1;
+    vec2 normal = waveNormal(n);
+
+    // vec2 uv = vec2(v_uv0.x,v_uv0.y + normal.z);
+    vec2 t2 = vec2(0.0,timeZoom * cc_time.x + 0.5);
+    vec2 t3 = vec2(timeZoom * cc_time.x - 0.5,timeZoom * cc_time.x - 0.5);
+    vec4 m1 = texture2D(mainTexture, v_uv0+normal+t2);
+    vec4 m2 = texture2D(mainTexture, v_uv0+normal + t1);
+    gl_FragColor = (m1+m2+color)*(0.5); // texture2D 纹理寻址库函数
+   }
+
+}%
+

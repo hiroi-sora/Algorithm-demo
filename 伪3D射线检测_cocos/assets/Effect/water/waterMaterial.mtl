@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.Material",
+  "_name": "waterMaterial",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "5d2840d4-aed8-4420-b115-332087e210bb"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "timeZoom": 0.1,
+        "color": {
+          "__type__": "cc.Color",
+          "r": 0,
+          "g": 172,
+          "b": 255,
+          "a": 69
+        },
+        "texZoom": 10,
+        "diffuseTexture": {
+          "__uuid__": "4ea7a210-3a7a-42af-8ff0-0b5edfe49346"
+        },
+        "mainTexture": {
+          "__uuid__": "4ea7a210-3a7a-42af-8ff0-0b5edfe49346"
+        },
+        "normalMap": {
+          "__uuid__": "91c193e5-1644-455d-a3ce-3af53ee6d52c"
+        }
+      },
+      "defines": {
+        "USE_NORMALMAP": true
+      }
+    }
+  }
+}

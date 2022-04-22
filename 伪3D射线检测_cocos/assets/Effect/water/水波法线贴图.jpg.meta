@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "91c193e5-1644-455d-a3ce-3af53ee6d52c",
+  "type": "sprite",
+  "wrapMode": "repeat",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 256,
+  "height": 256,
+  "platformSettings": {},
+  "subMetas": {
+    "水波法线贴图": {
+      "ver": "1.0.4",
+      "uuid": "8e64a843-9adf-493a-8dd9-676966cdc7b1",
+      "rawTextureUuid": "91c193e5-1644-455d-a3ce-3af53ee6d52c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 256,
+      "height": 256,
+      "rawWidth": 256,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "7b96d592-2232-4ee6-8daa-4187d1711c29",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1024,
+  "height": 1024,
+  "platformSettings": {},
+  "subMetas": {
+    "地图块草": {
+      "ver": "1.0.4",
+      "uuid": "e171040a-5358-4bd2-bc55-aa858ba40357",
+      "rawTextureUuid": "7b96d592-2232-4ee6-8daa-4187d1711c29",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1024,
+      "height": 1024,
+      "rawWidth": 1024,
+      "rawHeight": 1024,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

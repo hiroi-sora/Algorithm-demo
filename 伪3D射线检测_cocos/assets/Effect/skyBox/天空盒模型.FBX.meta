@@ -1,0 +1,167 @@
+{
+  "ver": "1.1.0",
+  "uuid": "cf42d4ed-2181-425a-8990-b582fe2e28b9",
+  "scaleFactor": 1,
+  "boneCount": 0,
+  "precomputeJointMatrix": false,
+  "animationFrameRate": 30,
+  "subMetas": {
+    "buffer.bin": {
+      "ver": "1.0.0",
+      "uuid": "9db87efa-4ed9-44d7-b390-5ca2a45bdfb8",
+      "name": "buffer.bin",
+      "subMetas": {}
+    },
+    "Sphere001.mesh": {
+      "ver": "1.0.1",
+      "uuid": "899e6d34-593d-4dfb-b9d6-fc10bae2ade0",
+      "verts": 175,
+      "tris": 264,
+      "submeshes": 1,
+      "attributes": [
+        [
+          "a_normal",
+          "a_position",
+          "a_uv0"
+        ]
+      ],
+      "minPos": {
+        "x": -1042.63940429688,
+        "y": -1042.63928222656,
+        "z": 0
+      },
+      "maxPos": {
+        "x": 1042.63940429688,
+        "y": 1042.63952636719,
+        "z": 744.671936035156
+      },
+      "name": "Sphere001.mesh",
+      "subMetas": {}
+    },
+    "天空盒模型.prefab": {
+      "ver": "1.2.7",
+      "uuid": "ceb0b7ad-20dc-46c1-ae97-a83839475f7e",
+      "optimizationPolicy": "AUTO",
+      "asyncLoadAssets": false,
+      "readonly": true,
+      "content": [
+        {
+          "__type__": "cc.Prefab",
+          "_name": "",
+          "_objFlags": 0,
+          "data": {
+            "__id__": 1
+          }
+        },
+        {
+          "__type__": "cc.Node",
+          "_name": "Sprite",
+          "_objFlags": 0,
+          "_opacity": 255,
+          "_color": {
+            "__type__": "cc.Color",
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "_cascadeOpacityEnabled": true,
+          "_parent": null,
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_contentSize": {
+            "__type__": "cc.Size",
+            "width": 40,
+            "height": 36
+          },
+          "_children": [],
+          "_skewX": 0,
+          "_skewY": 0,
+          "_localZOrder": 0,
+          "_globalZOrder": 0,
+          "_tag": -1,
+          "_opacityModifyRGB": false,
+          "_reorderChildDirty": false,
+          "_id": "",
+          "_active": true,
+          "_components": [
+            {
+              "__id__": 2
+            }
+          ],
+          "_prefab": {
+            "__id__": 3
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_trs": {
+            "__type__": "TypedArray",
+            "ctor": "Float64Array",
+            "array": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "__type__": "cc.Sprite",
+          "_name": "",
+          "_objFlags": 0,
+          "node": {
+            "__id__": 1
+          },
+          "_enabled": true,
+          "_spriteFrame": {
+            "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
+          },
+          "_type": 0,
+          "_sizeMode": 1,
+          "_fillType": 0,
+          "_fillCenter": {
+            "__type__": "cc.Vec2",
+            "x": 0,
+            "y": 0
+          },
+          "_fillStart": 0,
+          "_fillRange": 0,
+          "_isTrimmedMode": true,
+          "_srcBlendFactor": 770,
+          "_dstBlendFactor": 771,
+          "_atlas": null
+        },
+        {
+          "__type__": "cc.PrefabInfo",
+          "root": {
+            "__id__": 1
+          },
+          "asset": null,
+          "fileId": "d7118yAG5lKybkFOAh8koPL"
+        }
+      ],
+      "name": "天空盒模型.prefab",
+      "subMetas": {}
+    },
+    "Material #94.mtl": {
+      "ver": "1.0.3",
+      "uuid": "312358a5-5c1d-4014-b70b-9cf8c83cd876",
+      "dataAsSubAsset": "{\n  \"__type__\": \"cc.Material\",\n  \"_name\": \"\",\n  \"_objFlags\": 0,\n  \"_native\": \"\",\n  \"_effectAsset\": {\n    \"__uuid__\": \"fb45f795-6e6c-4c35-beb7-88cf688e51aa\"\n  },\n  \"_techniqueIndex\": 0,\n  \"_techniqueData\": {\n    \"0\": {\n      \"props\": {\n        \"color\": {\n          \"__type__\": \"cc.Color\",\n          \"r\": 0,\n          \"g\": 224,\n          \"b\": 245,\n          \"a\": 127\n        },\n        \"multiplier\": 0,\n        \"tilingOffset\": {\n          \"__type__\": \"cc.Vec4\",\n          \"x\": 1,\n          \"y\": 0,\n          \"z\": 1.5,\n          \"w\": 0\n        },\n        \"timeZoom\": 0.1,\n        \"mainTiling\": {\n          \"__type__\": \"cc.Vec2\",\n          \"x\": 0.25,\n          \"y\": 1\n        },\n        \"mainOffset\": {\n          \"__type__\": \"cc.Vec2\",\n          \"x\": -0.1,\n          \"y\": 0\n        },\n        \"mainTexture\": {\n          \"__uuid__\": \"d28c8861-4283-4052-80c6-a714b10e1c96\"\n        },\n        \"detailTex\": {\n          \"__uuid__\": \"c7ade848-26ad-4f4f-b047-ce5bbd69ffbd\"\n        }\n      },\n      \"defines\": {\n        \"USE_TEXTURE\": true,\n        \"USE_VERTEX_COLOR\": false,\n        \"USE_COLOR\": false,\n        \"FLIP_UV\": false,\n        \"OUTPUT_TO_GAMMA\": false\n      }\n    }\n  }\n}",
+      "name": "Material #94.mtl",
+      "subMetas": {}
+    }
+  }
+}

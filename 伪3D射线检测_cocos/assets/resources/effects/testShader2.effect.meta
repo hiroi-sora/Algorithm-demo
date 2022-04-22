@@ -1,0 +1,17 @@
+{
+  "ver": "1.0.25",
+  "uuid": "c3845a9c-7e65-46d4-935f-a07c44ba407e",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform vec2 mainTiling;\nuniform vec2 mainOffset;\nattribute vec3 a_position;\nattribute vec2 a_uv0;\nvarying lowp vec4 v_color;\nvarying mediump vec2 v_uv0;\nuniform mat4 cc_matWorld;\nuniform mat4 cc_matViewProj;\nuniform sampler2D noiseTexture;\nvoid main () {\n  vec4 position = vec4(a_position,1);\n  v_uv0 = a_uv0 * mainTiling + mainOffset;\n  float noise = texture2D(noiseTexture,v_uv0).r;\n  gl_Position = cc_matViewProj * cc_matWorld * position + noise*100.0;\n}",
+        "frag": "\nprecision highp float;\nuniform sampler2D diffuseTexture;\nvarying mediump vec2 v_uv0;\nvoid main () {\n  gl_FragColor = texture2D(diffuseTexture, v_uv0);\n }"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform MAIN_TILING {\n  vec2 mainTiling;\n  vec2 mainOffset;\n};\nin vec3 a_position;\nin vec2 a_uv0;\nout lowp vec4 v_color;\nout mediump vec2 v_uv0;\nuniform CCLocal {\n mat4 cc_matWorld;\n mat4 cc_matViewProj;\n};\nuniform sampler2D noiseTexture;\nvoid main () {\n  vec4 position = vec4(a_position,1);\n  v_uv0 = a_uv0 * mainTiling + mainOffset;\n  float noise = texture2D(noiseTexture,v_uv0).r;\n  gl_Position = cc_matViewProj * cc_matWorld * position + noise*100.0;\n}",
+        "frag": "\nprecision highp float;\nuniform sampler2D diffuseTexture;\nin mediump vec2 v_uv0;\nvoid main () {\n  gl_FragColor = texture2D(diffuseTexture, v_uv0);\n }"
+      }
+    }
+  ],
+  "subMetas": {}
+}

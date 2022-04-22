@@ -1,0 +1,17 @@
+{
+  "ver": "1.0.25",
+  "uuid": "5d2840d4-aed8-4420-b115-332087e210bb",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform vec2 mainTiling;\nuniform vec2 mainOffset;\nuniform float texZoom;\nattribute vec3 a_position;\nattribute vec2 a_uv0;\nvarying lowp vec4 v_color;\nvarying mediump vec2 v_uv0;\nuniform mat4 cc_matWorld;\nuniform mat4 cc_matViewProj;\nvoid main () {\n  vec4 position = vec4(a_position,1);\n  v_uv0 = a_uv0 * mainTiling + mainOffset;\n  v_uv0 *= texZoom;\n  gl_Position = cc_matViewProj * cc_matWorld * position;\n}",
+        "frag": "\n  precision highp float;\nuniform vec4 cc_time;\n  uniform sampler2D mainTexture;\n  varying mediump vec2 v_uv0;\n  uniform vec4 color;\nuniform float timeZoom;\n    uniform sampler2D normalMap;\n  vec2 waveNormal(vec2 p) {\n    vec2 nm = texture2D(normalMap, p).xy;\n    return normalize(nm);\n}\n  void main () {\n    vec2 t1 = vec2(timeZoom * cc_time.x + 0.5,0.0);\n    vec2 n = v_uv0;\n    vec2 normal = waveNormal(n);\n    vec2 t2 = vec2(0.0,timeZoom * cc_time.x + 0.5);\n    vec2 t3 = vec2(timeZoom * cc_time.x - 0.5,timeZoom * cc_time.x - 0.5);\n    vec4 m1 = texture2D(mainTexture, v_uv0+normal+t2);\n    vec4 m2 = texture2D(mainTexture, v_uv0+normal + t1);\n    gl_FragColor = (m1+m2+color)*(0.5);\n   }"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform MAIN_TILING {\n  vec2 mainTiling;\n  vec2 mainOffset;\n  float texZoom;\n};\nin vec3 a_position;\nin vec2 a_uv0;\nout lowp vec4 v_color;\nout mediump vec2 v_uv0;\nuniform CCLocal {\n mat4 cc_matWorld;\n mat4 cc_matViewProj;\n};\nvoid main () {\n  vec4 position = vec4(a_position,1);\n  v_uv0 = a_uv0 * mainTiling + mainOffset;\n  v_uv0 *= texZoom;\n  gl_Position = cc_matViewProj * cc_matWorld * position;\n}",
+        "frag": "\n  precision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\n  uniform sampler2D mainTexture;\n  in mediump vec2 v_uv0;\n  uniform main {\n    vec4 color;\n    float timeZoom;\n  };\n    uniform sampler2D normalMap;\n  vec2 waveNormal(vec2 p) {\n    vec2 nm = texture2D(normalMap, p).xy;\n    return normalize(nm);\n}\n  void main () {\n    vec2 t1 = vec2(timeZoom * cc_time.x + 0.5,0.0);\n    vec2 n = v_uv0;\n    vec2 normal = waveNormal(n);\n    vec2 t2 = vec2(0.0,timeZoom * cc_time.x + 0.5);\n    vec2 t3 = vec2(timeZoom * cc_time.x - 0.5,timeZoom * cc_time.x - 0.5);\n    vec4 m1 = texture2D(mainTexture, v_uv0+normal+t2);\n    vec4 m2 = texture2D(mainTexture, v_uv0+normal + t1);\n    gl_FragColor = (m1+m2+color)*(0.5);\n   }"
+      }
+    }
+  ],
+  "subMetas": {}
+}

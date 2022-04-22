@@ -1,0 +1,141 @@
+
+// shader描述
+CCEffect %{ 
+  techniques: # 存放渲染管道描述的数组集合
+
+  # 透明
+  - name: opaque
+    passes: # pass：完整的渲染流水线
+    - vert: my_vs # 顶点shader模块
+      frag: my_fs # 着色shader模块
+      depthStencilState: # 是否开启深度测试
+        depthTest: true
+        depthWrite: true
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none # 背面剔除
+
+      # 属性列表，显示在材质球面板上
+      # 自定义属性的时候，除了要在properties这里定义，还要在shader代码里定义
+      properties: &props
+        color: { value: [0.5, 0.5, 0.5, 0.5], inspector: { type: color } } // 颜色
+        tilingOffset: { value: [1, 0, 1, 0] } // 瓷砖(平铺)偏移
+        multiplier:   { value: 0.5 } // 乘数
+        timeZoom:   { value: 1.0 } // 时间缩放
+        mainTexture: { value: grey } // 主纹理
+        detailTex: { value: grey } // 细节纹理
+        # diffuseColor: { value: [1, 1, 1, 1], editor: { type: color } }
+        # alphaThreshold: { value: 0.5 }
+        # mainTiling: { value: [1, 1] } # 从Offset指定的起始位置开始，分别在X/Y轴，截取指定比列大小的原始贴图，作为输出贴图
+        # mainOffset: { value: [0, 0] } # 贴图UV坐标的起始位置，取值范围是0~1。
+        # 自定义属性：在shader代码里uniform UNLIT {......}; 里面定义。
+        # myNumber: { value: 0.0 }
+
+  # 不透明
+  - name: transparent 
+    passes: 
+      - stage: transparent
+        vert: my_vs
+        frag: my_fs
+        depthStencilState:
+          depthTest: true
+          depthWrite: true
+        blendState:
+          targets:
+          - blend: true
+        rasterizerState:
+          cullMode: none
+        properties: *props # 对TAML的锚点和引用，引用上面的片段
+}% // shader描述结束
+
+// 顶点描述
+CCProgram my_vs %{
+  precision highp float; // 定义float精度。GSLS里从高到低[highp,mediump,lowp]  
+  #include <cc-global>
+  #include <cc-local> // 引入cc_matWorld物体位置矩阵和cc_matViewProj摄像机透视矩阵
+  in vec3 a_position; // 从渲染管道里获取顶点位置
+  // 勾选顶点颜色时启用
+  #if USE_VERTEX_COLOR 
+    in vec4 a_color;
+    out vec4 v_color;
+  #endif
+  // 勾选纹理时启用
+  #if USE_TEXTURE 
+    in vec2 a_uv0; // 输入 顶点纹理坐标
+    // in vec2 a_texCoord;
+    out vec4 v_uv;
+    out float mul; // 乘
+    uniform TexCoords {
+      vec4 tilingOffset; // 瓷砖(平铺)偏移
+      float multiplier; // 乘数
+      float timeZoom; // 时间系数
+    };
+  #endif
+
+  void main () {
+    vec4 position = vec4(a_position,1.0); // 原代码里CCVertInput(position)定义在input.chunk，应该就是vec4(a_position,1.0)
+    highp mat4 matWorld = cc_matWorld; // 原CCGetWorldMatrix(matWorld)定义于cc-local-batch，起作用的应该是matWorld=cc_matWorld
+    #if USE_TEXTURE // 启用纹理
+      v_uv.xy = a_uv0;
+      v_uv.zw = a_uv0;
+      // v_uv.x += 0.5;
+      #if FLIP_UV // 翻转UV
+        v_uv.y = 1.0 - v_uv.y;
+        v_uv.w = 1.0 - v_uv.w;
+      #endif
+      float t = cc_time.x * timeZoom;
+      v_uv.xy += fract(tilingOffset.xy * t*2.0);
+      v_uv.zw += fract(tilingOffset.zw * t);
+      mul = multiplier;
+    #endif
+    #if USE_VERTEX_COLOR // 启用顶点颜色
+      v_color = a_color;
+    #endif
+    gl_Position = cc_matProj * cc_matView * matWorld * position; // 顶点变换cc_matViewProj
+  }
+}%
+
+
+// 着色描述
+CCProgram my_fs %{
+  precision highp float;
+  #include <output>
+  // 勾选纹理时启用
+  #if USE_TEXTURE
+    in vec4 v_uv;
+    in float mul;
+    uniform sampler2D mainTexture; // 主纹理
+    uniform sampler2D detailTex; // 细节纹理
+  #endif
+  // 勾选颜色时启用
+  #if USE_COLOR
+    uniform Constant {
+      vec4 color;
+    };
+  #endif
+  // 勾选顶点颜色时启用
+  #if USE_VERTEX_COLOR
+    in vec4 v_color;
+  #endif
+  // in lowp vec4 v_color; // 上面纹理shader传过来的
+  in mediump vec2 v_uv0;
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+    #if USE_TEXTURE // 启用纹理
+      o *= texture(mainTexture, v_uv.xy) * texture(detailTex, v_uv.zw);
+    #endif
+    #if USE_COLOR // 启用颜色
+      o *= color * mul;
+    #endif
+    #if USE_VERTEX_COLOR // 启用顶点颜色
+      o *= v_color;
+    #endif
+
+    gl_FragColor = CCFragOutput(o);
+    // gl_FragColor = texture2D(mainTexture, v_uv0); // texture2D 纹理寻址库函数
+  }
+}%
+

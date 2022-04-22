@@ -1,0 +1,26 @@
+{
+  "__type__": "cc.Material",
+  "_name": "skyBoxMaterial",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "fb45f795-6e6c-4c35-beb7-88cf688e51aa"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true
+      },
+      "props": {
+        "timeZoom": 0,
+        "mainTexture": {
+          "__uuid__": "d28c8861-4283-4052-80c6-a714b10e1c96"
+        },
+        "detailTex": {
+          "__uuid__": "c7ade848-26ad-4f4f-b047-ce5bbd69ffbd"
+        }
+      }
+    }
+  }
+}
